@@ -212,8 +212,12 @@
     var editLeft = currentOffset.left - containerOffset.left - 1;
 
     var settings = this.instance.getSettings();
-    var rowHeadersCount = settings.rowHeaders === false ? 0 : 1;
-    var colHeadersCount = settings.colHeaders === false ? 0 : 1;
+    //var rowHeadersCount = settings.rowHeaders === false ? 0 : 1;
+    //var colHeadersCount = settings.colHeaders === false ? 0 : 1;
+
+    var rowHeadersCount = settings.rowHeaders  ? 1 : 0;
+    var colHeadersCount = settings.colHeaders  ? 1 : 0;
+
     var editorSection = this.checkEditorSection();
     var cssTransformOffset;
 
@@ -230,15 +234,17 @@
         break;
     }
 
+
     if (editTop < 0) {
       editTop = 0;
     }
     if (editLeft < 0) {
       editLeft = 0;
     }
-    if (rowHeadersCount > 0 && parseInt(this.TD.style.borderTopWidth, 10) > 0) {
-      editTop += 1;
-    }
+    //if (rowHeadersCount > 0 && parseInt(this.TD.style.borderTopWidth, 10) > 0) {
+    //  console.log(rowHeadersCount);
+    //  //editTop += 1;
+    //}
     if (colHeadersCount > 0 && parseInt(this.TD.style.borderLeftWidth, 10) > 0) {
       editLeft += 1;
     }
@@ -267,7 +273,7 @@
 
     var width = Handsontable.Dom.innerWidth(this.TD) - 8  //$td.width()
       , maxWidth = this.instance.view.maximumVisibleElementWidth(cellLeftOffset) - 10 //10 is TEXTAREAs border and padding
-      , height = Handsontable.Dom.outerHeight(this.TD) - 4  //$td.outerHeight() - 4
+      , height = this.TD.scrollHeight + 1
       , maxHeight = this.instance.view.maximumVisibleElementHeight(cellTopOffset) - 2; //10 is TEXTAREAs border and padding
 
     if (parseInt(this.TD.style.borderTopWidth, 10) > 0) {
