@@ -212,9 +212,6 @@
     var editLeft = currentOffset.left - containerOffset.left - 1;
 
     var settings = this.instance.getSettings();
-    //var rowHeadersCount = settings.rowHeaders === false ? 0 : 1;
-    //var colHeadersCount = settings.colHeaders === false ? 0 : 1;
-
     var rowHeadersCount = settings.rowHeaders  ? 1 : 0;
     var colHeadersCount = settings.colHeaders  ? 1 : 0;
 
@@ -241,10 +238,7 @@
     if (editLeft < 0) {
       editLeft = 0;
     }
-    //if (rowHeadersCount > 0 && parseInt(this.TD.style.borderTopWidth, 10) > 0) {
-    //  console.log(rowHeadersCount);
-    //  //editTop += 1;
-    //}
+
     if (colHeadersCount > 0 && parseInt(this.TD.style.borderLeftWidth, 10) > 0) {
       editLeft += 1;
     }
