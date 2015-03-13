@@ -24,11 +24,8 @@
           key: 'freeze_column',
           name: function () {
             var selectedColumn = instance.getSelected()[1];
-            if (selectedColumn > fixedColumnsCount - 1) {
-              return 'Freeze this column';
-            } else {
-              return 'Unfreeze this column';
-            }
+            return Handsontable.t((selectedColumn > fixedColumnsCount - 1) ? 
+              'Freeze this column' : 'Unfreeze this column');
           },
           disabled: function () {
             var selection = instance.getSelected();
