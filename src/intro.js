@@ -23,10 +23,11 @@ var Handsontable = function (rootElement, userSettings) {
 };
 Handsontable.plugins = {};
 Handsontable.t = function(str){
-  var res = Handsontable.t.en_US;
+  var res = Handsontable.t.lang;
   return res[str] ? res[str] : str;
 };
 Handsontable.t.en_US = {};
+Handsontable.t.lang = Handsontable.t.en_US;
 
 (function (window, Handsontable) {
   "use strict";
