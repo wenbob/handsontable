@@ -313,12 +313,7 @@ var addMergeActionsToContextMenu = function (defaultOptions) {
     name: function () {
       var sel = this.getSelected();
       var info = this.mergeCells.mergedCellInfoCollection.getInfo(sel[0], sel[1]);
-      if (info) {
-        return 'Unmerge cells';
-      }
-      else {
-        return 'Merge cells';
-      }
+      return Handsontable.t(info ? 'Unmerge cells' : 'Merge cells');
     },
     callback: function () {
       this.mergeCells.mergeOrUnmergeSelection(this.getSelectedRange());
