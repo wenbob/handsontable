@@ -10,76 +10,21 @@ function Comments(instance) {
       doSaveComment(range.from.row, range.from.col, comment, instance);
     },
     hideCommentTextArea = function () {
-      var commentBox = createCommentBox();
-      commentBox.style.display = 'none';
-      commentBox.value = '';
+      var range = instance.getSelectedRange();
+      if (! range)
+        return;
+      var td = instance.getCell(range.from.row, range.from.col);
+      td.title = '';
     },
     bindMouseEvent = function (range) {
-
-			function commentsListener(event) {
-        eventManager.removeEventListener(document, 'mouseover');
-        if (!(event.target.className == 'htCommentTextArea' || event.target.innerHTML.indexOf('Comment') != -1)) {
-          var value = document.querySelector('.htCommentTextArea').value;
-          if (value.trim().length > 1) {
-            saveComment(range, value, instance);
-          }
-		      unBindMouseEvent();
-          hideCommentTextArea();
-        }
-      }
-
-      eventManager.addEventListener(document, 'mousedown',Handsontable.helper.proxy(commentsListener));
     },
     unBindMouseEvent = function () {
-      eventManager.removeEventListener(document, 'mousedown');
-      eventManager.addEventListener(document, 'mousedown', Handsontable.helper.proxy(commentsMouseOverListener));
     },
     placeCommentBox = function (range, commentBox) {
-      var TD = instance.view.wt.wtTable.getCell(range.from),
-        offset = Handsontable.Dom.offset(TD),
-        lastColWidth = instance.getColWidth(range.from.col);
-
-      commentBox.style.position = 'absolute';
-      commentBox.style.left = offset.left + lastColWidth + 'px';
-      commentBox.style.top = offset.top + 'px';
-      commentBox.style.zIndex = 2;
-      bindMouseEvent(range, commentBox);
     },
     createCommentBox = function (value) {
-      var comments = document.querySelector('.htComments');
-
-      if (!comments) {
-        comments = document.createElement('DIV');
-
-        var textArea = document.createElement('TEXTAREA');
-        Handsontable.Dom.addClass(textArea, 'htCommentTextArea');
-        comments.appendChild(textArea);
-
-        Handsontable.Dom.addClass(comments, 'htComments');
-        document.getElementsByTagName('body')[0].appendChild(comments);
-      }
-
-			value = value ||'';
-
-      document.querySelector('.htCommentTextArea').value = value;
-
-      //var tA = document.getElementsByClassName('htCommentTextArea')[0];
-      //tA.focus();
-      return comments;
     },
     commentsMouseOverListener = function (event) {
-        if(event.target.className.indexOf('htCommentCell') != -1) {
-						unBindMouseEvent();
-            var coords = instance.view.wt.wtTable.getCoords(event.target);
-            var range = {
-                from: new WalkontableCellCoords(coords.row, coords.col)
-            };
-
-            Handsontable.Comments.showComment(range);
-        }
-        else if(event.target.className !='htCommentTextArea'){
-            hideCommentTextArea();
-        }
     };
 
   return {
@@ -93,11 +38,11 @@ function Comments(instance) {
       if (meta.comment) {
         value = meta.comment;
       }
-      var commentBox = createCommentBox(value);
-      commentBox.style.display = 'block';
-      placeCommentBox(range, commentBox);
+      var td = instance.getCell(range.from.row, range.from.col);
+      td.title = value;
     },
     removeComment: function (row, col) {
+      instance.getCell(row, col).title = "";
       instance.removeCellMeta(row, col, 'comment');
       instance.render();
     },
@@ -122,13 +67,14 @@ var init = function () {
     var commentsSetting = instance.getSettings().comments;
 
     if (commentsSetting) {
-      Handsontable.Comments = new Comments(instance);
-        Handsontable.Comments.init();
+      instance.comments = new Comments(instance);
+        instance.comments.init();
     }
   },
   afterRenderer = function (TD, row, col, prop, value, cellProperties) {
     if(cellProperties.comment) {
       Handsontable.Dom.addClass(TD, cellProperties.commentedCellClassName);
+      TD.title = cellProperties.comment;
     }
   },
   addCommentsActionsToContextMenu = function (defaultOptions) {
@@ -142,12 +88,12 @@ var init = function () {
     defaultOptions.items.push({
       key: 'commentsAddEdit',
       name: function () {
-        var hasComment = Handsontable.Comments.checkSelectionCommentsConsistency();
-        return hasComment ? "Edit Comment" : "Add Comment";
+        var hasComment = instance.comments.checkSelectionCommentsConsistency();
+        return Handsontable.t(hasComment ? "Edit Comment" : "Add Comment");
 
       },
       callback: function (key, selection, event) {
-          Handsontable.Comments.showComment(this.getSelectedRange());
+          instance.comments.showComment(this.getSelectedRange());
       },
       disabled: function () {
         return false;
@@ -156,14 +102,12 @@ var init = function () {
 
     defaultOptions.items.push({
       key: 'commentsRemove',
-      name: function () {
-        return "Delete Comment";
-      },
+      name: Handsontable.t("Delete Comment"),
       callback: function (key, selection, event) {
-        Handsontable.Comments.removeComment(selection.start.row, selection.start.col);
+        instance.comments.removeComment(selection.start.row, selection.start.col);
       },
       disabled: function () {
-        var hasComment = Handsontable.Comments.checkSelectionCommentsConsistency();
+        var hasComment = instance.comments.checkSelectionCommentsConsistency();
         return !hasComment;
       }
     });
