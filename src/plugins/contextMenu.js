@@ -107,7 +107,7 @@
       items: [
         {
           key: 'row_above',
-          name: 'Insert row above',
+          name: Handsontable.t('Insert row above'),
           callback: function (key, selection) {
             this.alter("insert_row", selection.start.row);
           },
@@ -121,7 +121,7 @@
         },
         {
           key: 'row_below',
-          name: 'Insert row below',
+          name: Handsontable.t('Insert row below'),
           callback: function (key, selection) {
             this.alter("insert_row", selection.end.row + 1);
           },
@@ -136,7 +136,7 @@
         ContextMenu.SEPARATOR,
         {
           key: 'col_left',
-          name: 'Insert column on the left',
+          name: Handsontable.t('Insert column on the left'),
           callback: function (key, selection) {
             this.alter("insert_col", selection.start.col);
           },
@@ -150,7 +150,7 @@
         },
         {
           key: 'col_right',
-          name: 'Insert column on the right',
+          name: Handsontable.t('Insert column on the right'),
           callback: function (key, selection) {
             this.alter("insert_col", selection.end.col + 1);
           },
@@ -165,7 +165,7 @@
         ContextMenu.SEPARATOR,
         {
           key: 'remove_row',
-          name: 'Remove row',
+          name: Handsontable.t('Remove row'),
           callback: function (key, selection) {
             var amount = selection.end.row - selection.start.row + 1;
             this.alter("remove_row", selection.start.row, amount);
@@ -179,7 +179,7 @@
         },
         {
           key: 'remove_col',
-          name: 'Remove column',
+          name: Handsontable.t('Remove column'),
           callback: function (key, selection) {
             var amount = selection.end.col - selection.start.col + 1;
             this.alter("remove_col", selection.start.col, amount);
@@ -194,7 +194,7 @@
         ContextMenu.SEPARATOR,
         {
           key: 'undo',
-          name: 'Undo',
+          name: Handsontable.t('Undo'),
           callback: function () {
             this.undo();
           },
@@ -204,7 +204,7 @@
         },
         {
           key: 'redo',
-          name: 'Redo',
+          name: Handsontable.t('Redo'),
           callback: function () {
             this.redo();
           },
@@ -216,7 +216,7 @@
         {
           key: 'make_read_only',
           name: function () {
-            var label = "Read only";
+            var label = Handsontable.t("Read only");
             var atLeastOneReadOnly = contextMenu.checkSelectionReadOnlyConsistency(this);
             if (atLeastOneReadOnly) {
               label = contextMenu.markSelected(label);
@@ -237,12 +237,12 @@
         ContextMenu.SEPARATOR,
         {
           key: 'alignment',
-          name: 'Alignment',
+          name: Handsontable.t('Alignment'),
           submenu: {
             items: [
               {
                 name: function () {
-                  var label = "Left";
+                  var label = Handsontable.t("Left");
                   var hasClass = contextMenu.checkSelectionAlignment(this, 'htLeft');
 
                   if (hasClass) {
@@ -257,7 +257,7 @@
               },
               {
                 name: function () {
-                  var label = "Center";
+                  var label = Handsontable.t("Center");
                   var hasClass = contextMenu.checkSelectionAlignment(this, 'htCenter');
 
                   if (hasClass) {
@@ -272,7 +272,7 @@
               },
               {
                 name: function () {
-                  var label = "Right";
+                  var label = Handsontable.t("Right");
                   var hasClass = contextMenu.checkSelectionAlignment(this, 'htRight');
 
                   if (hasClass) {
@@ -287,7 +287,7 @@
               },
               {
                 name: function () {
-                  var label = "Justify";
+                  var label = Handsontable.t("Justify");
                   var hasClass = contextMenu.checkSelectionAlignment(this, 'htJustify');
 
                   if (hasClass) {
@@ -303,7 +303,7 @@
               ContextMenu.SEPARATOR,
               {
                 name: function () {
-                  var label = "Top";
+                  var label = Handsontable.t("Top");
                   var hasClass = contextMenu.checkSelectionAlignment(this, 'htTop');
 
                   if (hasClass) {
@@ -318,7 +318,7 @@
               },
               {
                 name: function () {
-                  var label = "Middle";
+                  var label = Handsontable.t("Middle");
                   var hasClass = contextMenu.checkSelectionAlignment(this, 'htMiddle');
 
                   if (hasClass) {
@@ -333,7 +333,7 @@
               },
               {
                 name: function () {
-                  var label = "Bottom";
+                  var label = Handsontable.t("Bottom");
                   var hasClass = contextMenu.checkSelectionAlignment(this, 'htBottom');
 
                   if (hasClass) {
