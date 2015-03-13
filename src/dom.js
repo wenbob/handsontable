@@ -453,7 +453,7 @@ Handsontable.Dom.removeEvent = function(element, event, callback) {
 
 
 (function () {
-  var hasCaptionProblem;
+  var hasCaptionProblem = false; // make it work for jsdom
 
   function detectCaptionProblem() {
     var TABLE = document.createElement('TABLE');
