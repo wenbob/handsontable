@@ -269,6 +269,9 @@ WalkontableTable.prototype.getRowHeader = function(row) {
 WalkontableTable.prototype.getCoords = function (TD) {
   var TR = TD.parentNode;
   var row = Handsontable.Dom.index(TR);
+  if (! this.rowFilter) {
+    return;
+  }
   if (TR.parentNode === this.THEAD) {
     row = this.rowFilter.visibleColHeadedRowToSourceRow(row);
   }
