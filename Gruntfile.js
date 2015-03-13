@@ -60,6 +60,7 @@ module.exports = function (grunt) {
     meta: {
       src: [
         'tmp/core.js',
+        'src/handsontable.zh_CN.js',
         'src/multiMap.js',
         'src/dom.js',
         'src/eventManager.js',
